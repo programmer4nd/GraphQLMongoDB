@@ -3,8 +3,6 @@ const express = require('express');
 const { mongoose } = require('mongoose');
 const { resolvers } = require('./resolvers');
 const { makeExecutableSchema } = require('graphql-tools');
-const { typeDefsx } = require('./typeDefs');
-//const app = express();
 const typeDefs = gql`
   type User {
     id: ID!
@@ -21,7 +19,7 @@ const typeDefs = gql`
   }
   type Mutation {
     createUser(name: String!,mobile: String!,email: String!,status: String="Active"): User!
-    updateUser(name: String!,mobile: String!,email: String!,status: Int,id:ID): User!
+    updateUser(name: String!,mobile: String!,email: String!,status: String,id:ID): User!
     deleteUser(id:ID):String 
   }
 `;

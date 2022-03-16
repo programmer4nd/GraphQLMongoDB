@@ -10,15 +10,8 @@ const resolvers = {
     GetUsers: async (_, { count }) => {
       return await User.find({}).limit(count);
     },
-    totalUsers: () => {
-      User.countDocuments().then(function (err, data) {
-        if (!err) {
-          console.log(data);
-          return data;
-        } else {
-          throw err;
-        }
-      });
+    totalUsers: async () => {
+      return await User.countDocuments();
     },
   },
   Mutation: {
@@ -28,8 +21,13 @@ const resolvers = {
       await _obj.save();
       return _obj;
     },
-    updateUser: async (_, { name }) => {
-      const _obj = new User({ name });
+    updateUser: async (_, { name, mobile, email, status, id }) => {
+      var _obj = await User.findById(id);
+      if (!_obj) { const error = new Error("User Not found"); throw error; }
+      _obj.name = name;
+      _obj.mobile = mobile;
+      _obj.email = email;
+      _obj.status = status;
       await _obj.save();
       return _obj;
     },
